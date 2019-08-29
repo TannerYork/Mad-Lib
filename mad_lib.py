@@ -1,26 +1,35 @@
-def create_mad_lib(input):
-    return f""" Kevin is a very {input["adjective"]} {input["noun"]}, he gets really {input["verb"]} when people have the same name as him. 
- Sometimes, Kevin enjoys {input["indoor_activity"]} inside with his friend {input["person"]}. When Kevin and {input["person"]} 
- can't {input["indoor_activity"]} inside they choose to {input["outdoor_activity"]} outside instead. """
+class Mad_Lib:
+    def __init__(self):
+        self.mad_lib = ["Kevin is a very ", None, None, ", he gets really ", None, "when people have the same name as him. Sometimes, Kevin enjoys ", None, "inside with his friend ", None, "."]
 
-print(""" Kevin is a very {adjective} {noun}, he gets really {verb} when people have the same name as him. 
- Sometimes, Kevin enjoys {indoor activity} inside with his friend {person}. When Kevin and {person} can't 
- {indoor_activity} inside they choose to {outdoor activity} outside instead.  """)
+    def create_mad_lib(self, input):
+        if(len(input) == 5):
+            for input_i, word in reversed(list(enumerate(input))):
+                for mad_i, value in enumerate(self.mad_lib):
+                    if(value is None):
+                        self.mad_lib[mad_i] = word
+                        input.pop(input_i)
+                        break
+                continue
+            print('')
+            print(''.join(self.mad_lib))
+        else:
+            print("invalid number of inputs")
 
-adjective = str(input("adjective: "))
-noun = str(input("noun: "))
-verb = str(input("verb: "))
-indoor_activity = str(input("indoor activity: "))
-person = str(input("person: "))
-outdoor_activity = str(input("outdoor activity: "))
+    def init(self):
+        print("""
+        Kevin is a very [adjective] [noun], he gets really [verb] people have 
+        the same name as him. Sometimes, Kevin enjoys [indoor activity] with 
+        his friend [noun].
+        """)
+        self.user_input = []
+        self.user_input.insert(0, str(input("adjective: ")))
+        self.user_input.insert(0, str(input("noun: ")))
+        self.user_input.insert(0, str(input("verb: ")))
+        self.user_input.insert(0, str(input("indoor activity: ")))
+        self.user_input.insert(0, str(input("person: ")))
+        self.create_mad_lib(self.user_input)
 
-input = {
-    "adjective": adjective,
-    "noun": noun,
-    "verb": verb,
-    "indoor_activity": indoor_activity,
-    "person": person,
-    "outdoor_activity": outdoor_activity
-}
+mad_lib = Mad_Lib()
 
-print(create_mad_lib(input))
+mad_lib.init()
