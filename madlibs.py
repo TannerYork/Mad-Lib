@@ -1,59 +1,71 @@
+import random
+
 class Mad_Lib:
-    def __init__(self):
-        self.user_input = []
-        self.mad_lib = ["Kevin is a very ", None, None, ", he gets really ", None, "when people have the same name as him. Sometimes, Kevin enjoys ", None, "inside with his friend ", None, "."]
+    def __init__(self, mad_lib):
+        self.user_input = {
+            "name": None,
+            "nouns": [],
+            "verbs": [],
+            "adjectives": [],
+            "adverbs": []
+        }
+        self.mad_lib = mad_lib
 
-    def create_mad_lib(self, input):
-        if(len(input) == 5):
-            for input_i, word in reversed(list(enumerate(input))):
-                for mad_i, value in enumerate(self.mad_lib):
-                    if(value is None):
-                        self.mad_lib[mad_i] = word
-                        input.pop(input_i)
-                        break
-                continue
-            print('')
-            print(''.join(self.mad_lib))
-        else:
-            print("invalid number of inputs")
+    def get_input(self, input_type):
+        for word in self.mad_lib:
+            if(word == input_type):
+                inputs = [input(f'{input_type}: ')]
+                while(inputs[0] is ''):
+                    inputs[0] = input(f'Invaled, {input_type} is required: ')
+                self.user_input[f"{input_type}s"].append(inputs[0])
     
-    def get_input(self):
-        user_input = []
-        adjective = str(input("adjective: "))
-        while(adjective == ''):
-            adjective = str(input("Invaled, a adjective is required: "))
-        noun_1 = str(input("noun: "))
-        while(noun_1 == ''):
-            noun_1 = str(input("Invaled, a noun is required: "))
-        verb = str(input("verb: "))
-        while(verb == ''):
-            verb = str(input("Invaled, a verb is required: "))
-        indoor_activity = str(input("indoor activity: "))
-        while(indoor_activity == ''):
-            indoor_activity = str(input("Invaled, an activity is required: "))
-        noun_2 = str(input("noun: "))
-        while(noun_2 == ''):
-            noun_2 = str(input("Invaled, a noun is required: "))
+    def get_name_input(self):
+        name = input('Name: ')
+        while(name is ''):
+            name = input('Invaled, a name is required: ')
+    
+    def get_user_input(self):
+        self.get_name_input()
+        self.get_input('noun')
+        self.get_input('verb')
+        self.get_input('adjective')
+        self.get_input('adverb')
 
-        user_input.insert(0, adjective) 
-        user_input.insert(0, noun_1)
-        user_input.insert(0, verb) 
-        user_input.insert(0, indoor_activity) 
-        user_input.insert(0, noun_2)
-        return user_input
+    def insert_input(self, list_type):
+        for i, word in enumerate(self.mad_lib):
+            if(word == list_type):
+                random_word = random.choice(self.user_input[f"{list_type}s"])
+                self.mad_lib[i] = random_word
+                self.user_input[f"{list_type}s"].remove(random_word)
+
+    def insert_name_input(self):
+        for word in self.mad_lib:
+            if(word == 'name'):
+                word = self.user_input["name"]
+
+    def create(self):
+        self.insert_name_input()
+        self.insert_input('noun')
+        self.insert_input('verb')
+        self.insert_input('adjective')
+        self.insert_input('adverb')
 
     def init(self):
-        self.create_mad_lib(self.get_input())
+        self.get_user_input()
+        self.create()
+        print("".join(self.mad_lib))
         
         
+        
+jack_and_bean = ['Once upon a time there lived a ', 'adjective', ' ', 'noun', ' and her ', 'noun',' ', 'name', '. One day, ', 'name', "'s ", 'noun', ' told him to ', 'verb', ' their only ', 'noun', '.', ' name', ' went to the ', 'noun', ' and on the way he met a man who wanted to buy his ', 'noun', '. Jack asked, ', '"What will you give me for my ', 'noun', '? The man answered, “I will ', 'verb', ' you five ', 'adjective', ' ', 'noun', '!” ', 'name', ' took the ', 'adverb',' ', 'verb',' ', 'noun', ' and gave the man the ', 'noun', '. But when he', 'verb', ' ', 'place', ' ', 'name', "'s ", 'noun', ' was very ', 'verb', '. She said, “You ', 'adjective', '! He took away your ', 'noun', ' and gave you some ', 'noun', '!” She ', 'verb', ' the ', 'noun', ' out of the ', 'noun', '. ', 'name', ' was very ', 'adjective', ' and went to ', 'verb', ' without ', 'noun', '.']
+kevin = ['Kevin is a very ', 'adjective', ' ', 'noun', ' he gets really ', 'verb', ' when people have the same name as him. Sometimes, Kevin enjoys ', 'verb', ' with his friend ', 'noun', '.']
 
-mad_lib = Mad_Lib()
-mad_lib.init()
-
+kevin_mad_lib = Mad_Lib(kevin)
+kevin_mad_lib.init()
 
 def test():
-     print(f"""
+     print(f'''
         Kevin is a very [adjective] [noun], he gets really [verb] people have 
-        the same name as him. Sometimes, Kevin enjoys [indoor activity] with 
+        the same name as him. Sometimes, Kevin enjoys [outdoor activity] with 
         his friend [noun].
-        """)
+        ''')
