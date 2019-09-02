@@ -1,3 +1,4 @@
+from termcolor import colored
 import random
 import re
 
@@ -15,9 +16,9 @@ class Mad_Lib:
             while user_input == '' or re.match('\s+', user_input):
                 user_input = input(f'Invaled, {item} is required: ')
             if (item not in self.user_inputs): 
-                self.user_inputs[item] = [user_input] 
+                self.user_inputs[item] = [colored(user_input, 'green')] 
             else:
-                self.user_inputs[item].append(user_input)
+                self.user_inputs[item].append(colored(user_input, 'green'))
 
     # Subbsitute bracket inclosed text with user input
     def create(self):
@@ -43,13 +44,7 @@ tortoise_and_the_hair = '''
         [competition]? By whom? Not you, surely! I bet there’s nobody in the [place] that can win against 
         me, I’m so [adjective]. Now, why don’t you [verb]?”
         '''
+
 mad_lib = Mad_Lib(tortoise_and_the_hair)
 mad_lib.create()
 mad_lib.print()
-
-def test():
-     print(f'''
-        Kevin is a very [adjective] [noun], he gets really [verb] people have 
-        the same name as him. Sometimes, Kevin enjoys [outdoor activity] with 
-        his friend [noun].
-        ''')
