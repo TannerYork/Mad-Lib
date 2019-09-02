@@ -11,10 +11,13 @@ class Mad_Lib:
         inputs = re.findall('\[([a-z]([a-z]|\s)+)\]', self.mad_lib)
         for index, item in enumerate(inputs): inputs[index] = item[0]
         for item in inputs: 
+            user_input = input(f'{item}: ') 
+            while user_input == '' or re.match('\s+', user_input):
+                user_input = input(f'Invaled, {item} is required: ')
             if (item not in self.user_inputs): 
-                self.user_inputs[item] = [input(f'{item}: ')]
+                self.user_inputs[item] = [user_input] 
             else:
-                self.user_inputs[item].append(input(f'{item}: '))
+                self.user_inputs[item].append(user_input)
 
     # Subbsitute bracket inclosed text with user input
     def create(self):
