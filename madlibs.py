@@ -21,7 +21,7 @@ class Mad_Lib:
     # Take any text inclosed in [] and inserts it into the inputs array  
     def get_inputs(self):
         # Get the inputs from the mad lib and set each input to it's pos tupal value
-        tuple_inputs = re.findall('\[([a-z]([a-z]|\s)+)\]', self.mad_lib)
+        tuple_inputs = re.findall('\[(\w(\w|\s)+)\]', self.mad_lib)
         for index, mad_lib_tuple in enumerate(tuple_inputs): tuple_inputs[index] = mad_lib_tuple[0]
         # Get proper pos user input, if input is a pos, for each input
         for mad_lib_input in tuple_inputs: 
@@ -57,7 +57,7 @@ class Mad_Lib:
 
 
 kevin_mad_lib = '''
-        Kevin is a very [adjective] [noun], he gets really [verb] people have 
+        Kevin is a very [adjective 1] [noun], he gets really [verb] people have 
         the same name as him. Sometimes, Kevin enjoys [outdoor activity] with 
         his friend [noun].
         '''
