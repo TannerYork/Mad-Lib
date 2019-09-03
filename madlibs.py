@@ -1,9 +1,12 @@
 from termcolor import colored
+from os import system
+import readline
 import random
 import re
 
 class Mad_Lib:
-    def __init__(self, mad_lib):
+    def __init__(self, mad_lib = None, name = None):
+        self.name = name;
         self.mad_lib = mad_lib
         self.user_inputs = {}
         
@@ -40,14 +43,25 @@ class Mad_Lib:
                 self.mad_lib = re.sub(f'\[{key}\]', word, self.mad_lib, 1)
 
     def print(self):
+        system('clear')
+        print(self.name)
         print(self.mad_lib)
+
+    def start(self):
+        if self.mad_lib and self.name:
+            print(self.name)
+            self.create()
+            self.print()
+        else: 
+            print('Error, missing values')
+
 
 kevin_mad_lib = '''
         Kevin is a very [adjective] [noun], he gets really [verb] people have 
         the same name as him. Sometimes, Kevin enjoys [outdoor activity] with 
         his friend [noun].
         '''
-tortoise_and_the_hair = '''
+tortoise_and_the_hare = '''
         Once upon a time there was a hare who, [verb] how he could [action verb] [comparative adjective] 
         than anyone else. He always would be [word that ends in ing] tortoise for its [adjective]. Then 
         one day, the [adjective] tortoise [verb] back: “Who do you think you are? There’s no denying 
@@ -56,6 +70,31 @@ tortoise_and_the_hair = '''
         against me, I’m so [adjective]. Now, why don’t you [verb] off?”
         '''
 
-mad_lib = Mad_Lib(tortoise_and_the_hair)
-mad_lib.create()
-mad_lib.print()
+def valid_input():
+    user_input = input("Enter a mad lib's index to start, or Q to quit: ")
+    while user_input != '' and re.match('\s+', user_input):
+       user_input = input(f"Index is invaled, try again or hit Q to quit: ")
+    return user_input
+
+k_mad_lib = Mad_Lib(kevin_mad_lib, 'Kevin')
+tath_mad_lib = Mad_Lib(tortoise_and_the_hare, 'Tortoise and the Hare')
+mad_libs = [k_mad_lib, tath_mad_lib]
+
+system('clear')
+should_continue = True
+while should_continue:
+    for index, mad_lib in enumerate(mad_libs):
+        print('{} {}'.format(index, mad_lib.name))
+
+    user_input = valid_input()
+    system('clear')
+
+    if user_input.isnumeric():
+        mad_libs[int(user_input)].start()
+
+    elif user_input == 'Q' or user_input == 'q':
+        system('clear')
+        should_continue = False
+
+    else: 
+        print('Invaled input')
